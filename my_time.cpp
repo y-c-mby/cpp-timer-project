@@ -42,6 +42,12 @@ std::string Time::get_as_str(m_bool is_using_days) const
 	return str;
 	
 }
+void time_reset(Time* ptr)
+{
+	ptr->m_hours=0;
+	ptr->m_minutes=0;
+	ptr->m_seconds=0;
+}
 Time& Time::operator+=(Time t)
 {
 	Time b(get_seconds()+t.get_seconds());

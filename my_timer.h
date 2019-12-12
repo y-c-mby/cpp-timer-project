@@ -1,9 +1,10 @@
 /*#include <stdexcept>*/
 #include "my_time.h"
 #include "msg_printer.h"
+
 class Timer{
 	public:
-	Timer(Time &t,msg_printer* m);
+	Timer(Time t,msg_printer* m);
 	void tick();
 	void tick(unsigned char sum);
 	void tick(std::string s,unsigned char sum=60) throw(std::invalid_argument);
@@ -13,15 +14,16 @@ class Timer{
 	msg_printer* m_pprinter;
 };
 
-inline Timer::Timer(Time &t,msg_printer* m):m_target(t.get_seconds()),m_clock(0),m_pprinter(m)	
+inline Timer::Timer(Time t,msg_printer* m):m_target(t.get_seconds()),m_clock(0),m_pprinter(m)	
 {
 		
 }
 inline void Timer::tick()
 {
-	if((m_clock>=m_target)==TRUE)
+	if((m_clock>=m_target))
 	{
 		m_pprinter->print();
+		m_clock=0;
 	}
 	m_clock+=1;
 }

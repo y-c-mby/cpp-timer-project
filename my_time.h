@@ -15,6 +15,7 @@ class Time{
 	unsigned int get_seconds() const;
 	static void change_delimiter(char dd,char d) throw(std::invalid_argument); 
 	Time& operator+=(Time t);
+	friend void time_reset(Time* ptr);
 	private:
 	static const int s_m_secondsofhours=3600;
 	static const int s_m_secondsinminute=60;
@@ -24,6 +25,7 @@ class Time{
 	static char m_ddelimiter;
 	static char m_delimiter;
 };
+void time_reset(Time* ptr);
 char compare(Time& t,Time& t1);
 inline  void Time:: change_delimiter(char dd,char d)throw(std::invalid_argument)
 {
@@ -34,54 +36,32 @@ inline  void Time:: change_delimiter(char dd,char d)throw(std::invalid_argument)
 	m_ddelimiter=dd;
 	m_delimiter=d;
 }
-inline m_bool operator==(Time& t,Time& t1)
+inline bool operator==(Time& t,Time& t1)
 {
-	if(t.get_seconds()==t1.get_seconds())
-	{
-		
-		return TRUE;
-	}
-	return FALSE;
+	return(t.get_seconds()==t1.get_seconds());
 }
-inline m_bool operator!=(Time& t,Time& t1)
+inline bool operator!=(Time& t,Time& t1)
 {
-	if(t.get_seconds()!=t1.get_seconds())
-	{
-		return TRUE;
-	}
-	return FALSE;
+	return(t.get_seconds()!=t1.get_seconds());
 }
-inline m_bool operator<(Time& t,Time& t1)
+inline bool operator<(Time& t,Time& t1)
 {
-	if(compare(t,t1)==1)
-	{
-		return TRUE;
-	}
-	return FALSE;
+	return(t.get_seconds()<t1.get_seconds());
 }
-inline m_bool operator<=(Time& t,Time& t1)
+inline bool operator<=(Time& t,Time& t1)
 {
-	if(compare(t,t1)!=-1)
-	{
-		return TRUE;
-	}
-	return FALSE;
+	return(t.get_seconds()<=t1.get_seconds());
+	
 }
-inline m_bool operator>(Time& t,Time& t1)
+inline bool operator>(Time& t,Time& t1)
 {
-	if(compare(t,t1)==-1)
-	{
-		return TRUE;
-	}
-	return FALSE;
+	return(t.get_seconds()>t1.get_seconds());
+	
 }
-inline m_bool operator>=(Time& t,Time& t1)
+inline bool operator>=(Time& t,Time& t1)
 {
-	if(t.get_seconds()>=t1.get_seconds())
-	{
-		return TRUE;
-	}
-	return FALSE;
+	return(t.get_seconds()>=t1.get_seconds());
+	
 }
 inline Time::Time(int s):m_hours((s/s_m_secondsofhours)),m_minutes((unsigned char)((s%s_m_secondsofhours)/s_m_secondsinminute)),m_seconds((unsigned char)((s%s_m_secondsofhours)%s_m_secondsinminute))
 {
