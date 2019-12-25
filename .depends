@@ -1,8 +1,0 @@
-taet_t.o: taet_t.cpp my_time.h test_t.h
-test_msg.o: test_msg.cpp test_msg.h msg_printer.h
-my_timer.o: my_timer.cpp my_timer.h my_time.h msg_printer.h
-my_time.o: my_time.cpp my_time.h
-test_ti.o: test_ti.cpp my_timer.h my_time.h msg_printer.h test_ti.h
-main.o: main.cpp test_t.h test_ti.h my_timer.h my_time.h msg_printer.h \
- test_msg.h
-msg_printer.o: msg_printer.cpp msg_printer.h
