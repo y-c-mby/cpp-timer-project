@@ -6,10 +6,8 @@
 class msg_printer
 {
 	public:
-	msg_printer(std::string s=NULL);
-	msg_printer(msg_printer& mp);
-	std::string getMessage() const;
-	void setMessage(std::string s);
+	msg_printer(const std::string& s);
+	const std::string& getMessage() const;
 	virtual ~msg_printer();
 	virtual void print() const;
 	private:
@@ -28,6 +26,7 @@ class MsgPrinterSurrounding:public msg_printer{
 	virtual void printBefore() const;
 	virtual void printAfter() const ;
 	private:
+	
 	char* m_before;
 	char* m_after;
 };
@@ -44,19 +43,12 @@ class msgPrinterMultipleSurrounding:public MsgPrinterSurrounding {
 	private:
 	unsigned char m_times;	
 };
-inline std::string msg_printer:: getMessage() const
+/*msg_printer members function*/
+inline const std::string& msg_printer:: getMessage() const
 {
 	return m_message;
 }
-inline void msg_printer:: setMessage(std::string s=NULL)
-{
-	m_message=s;
-}
-
-inline msg_printer::msg_printer(msg_printer& mp){
-	(mp.m_message);
-}
-inline msg_printer::msg_printer(std::string s)
+inline msg_printer::msg_printer(const std::string &s)
 {
 	m_message=s;
 }
@@ -71,34 +63,58 @@ inline msg_printer::~msg_printer()
 	
 }
 /*MsgPrinterSurrounding members function*/
-inline MsgPrinterSurrounding::MsgPrinterSurrounding(const std::string &s):msg_printer(s),m_before(0),m_after(0){
+inline MsgPrinterSurrounding::MsgPrinterSurrounding(const std::string &s):msg_printer(s)
+,m_before(0)
+,m_after(0)
+{
 			
 }
 inline MsgPrinterSurrounding& MsgPrinterSurrounding:: operator=( const MsgPrinterSurrounding &msg)
 {
-	std::string s=msg.getMessage();
-	setMessage(s);
-	delete[]m_before;
-	m_before=new char[strlen(msg.m_before)];
-	strcpy(m_before,msg.m_before);
-	delete[]m_after;
-	m_after=new char[strlen(msg.m_after)];
-	strcpy(m_after,msg.m_after);
+	
+	
+		msg_printer::operator=(msg);
+		delete [] m_before;
+		m_before=new char[strlen(msg.m_before)];
+		strcpy(m_before,msg.m_before);
+		delete[]m_after;
+		m_after=new char[strlen(msg.m_after)];
+		strcpy(m_after,msg.m_after);
+	
 	return *this;
 	
 }
-inline MsgPrinterSurrounding::MsgPrinterSurrounding(const std::string &s,const std::string& before_msg,const std::string &after_msg):msg_printer(s){
-	m_before=new char[before_msg.length()];
-	strcpy( m_before,before_msg.c_str());
-	m_after=new char[after_msg.length()];
-	strcpy(m_after,after_msg.c_str());
-			
+inline 
+inline  MsgPrinterSurrounding::MsgPrinterSurrounding(const MsgPrinterSurrounding &mps):msg_printer(mps)
+{
+	m_before=new char[strlen(mps.m_before)];
+	strcpy(m_before,mps.m_before);
+	m_after=new char[strlen(mps.m_after)];
+	strcpy(m_after,mps.m_after);
+}
+inline MsgPrinterSurrounding::MsgPrinterSurrounding(const std::string &s,const std::string& before_msg,const std::string &after_msg):
+msg_printer(s),m_before(0),m_after(0)
+{
+	if(before_msg!="\0")
+	{
+		m_before=new char[before_msg.length()];
+		strcpy( m_before,before_msg.c_str());
+	}
+	if(after_msg!="\0")
+	{
+		m_after=new char[after_msg.length()];
+		strcpy(m_after,after_msg.c_str());
+	}			
 }
 inline void MsgPrinterSurrounding::printBefore() const{
-	std::cout<<"msg_before "<<m_before<<std::endl;
+	
+		std::cout<<"msg_before "<<m_before<<std::endl;
+	
 }
 inline void MsgPrinterSurrounding::printAfter() const{
-	std::cout<<"msg_after "<<m_after<<std::endl;
+	
+		std::cout<<"msg_after "<<m_after<<std::endl;
+	
 }
 inline void MsgPrinterSurrounding::print() const{
 	printBefore();
@@ -112,17 +128,16 @@ inline  MsgPrinterSurrounding::~MsgPrinterSurrounding()
 	std::cout<<"end of MsgPrinterSurrounding "<<std::endl;
 	msg_printer::print();
 }
-inline  MsgPrinterSurrounding::MsgPrinterSurrounding(const MsgPrinterSurrounding &mps):msg_printer(mps.getMessage())
+
+/* msgPrinterMultipleSurrounding members function*/
+inline msgPrinterMultipleSurrounding::msgPrinterMultipleSurrounding(const std::string &s,unsigned char num):
+MsgPrinterSurrounding(s),
+m_times(num)
 {
-	m_before=new char[strlen(mps.m_before)];
-	strcpy(m_before,mps.m_before);
-	m_after=new char[strlen(mps.m_after)];
-	strcpy(m_after,mps.m_after);
 }
-inline msgPrinterMultipleSurrounding::msgPrinterMultipleSurrounding(const std::string &s,unsigned char num):MsgPrinterSurrounding(s),m_times(num)
-{	
-}
-inline msgPrinterMultipleSurrounding::msgPrinterMultipleSurrounding(const std::string &s,const std::string& before_msg,const std::string &after_msg,unsigned char num):MsgPrinterSurrounding(s,before_msg,after_msg),m_times(num)
+inline msgPrinterMultipleSurrounding::msgPrinterMultipleSurrounding(const std::string &s,const std::string& before_msg,const std::string &after_msg,unsigned char num):
+MsgPrinterSurrounding(s,before_msg,after_msg)
+,m_times(num)
 {
 }
 inline void msgPrinterMultipleSurrounding::setTimes(unsigned char c)

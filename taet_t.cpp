@@ -7,7 +7,7 @@ void create_time()
 	{
 		
 		Time t(24,30,12);
-		std::cout<<t.get_as_str(TRUE)<<std::endl;
+		std::cout<<t.get_as_str(true)<<std::endl;
 		print(t);
 		ans=t.get_seconds();
 		std::cout<<ans<<std::endl;

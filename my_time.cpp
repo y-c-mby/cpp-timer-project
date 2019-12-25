@@ -3,7 +3,7 @@
 #include <string>
 char Time:: m_ddelimiter='.';
 char Time:: m_delimiter=':';
-Time::Time(unsigned int h,unsigned char m,unsigned char s)throw(std::invalid_argument):m_hours(h),m_minutes(m),m_seconds(s)
+Time::Time(unsigned int h,unsigned char m,unsigned char s)
 {
 	std::string str;
 	if(s>59)
@@ -24,12 +24,12 @@ Time::Time(unsigned int h,unsigned char m,unsigned char s)throw(std::invalid_arg
 		throw std::invalid_argument(str); 
 	}
 }
-std::string Time::get_as_str(m_bool is_using_days) const
+std::string Time::get_as_str(bool is_using_days) const
 {
 	char days;
 	char buffer[20];
 	std::string str;
-	if(is_using_days==1)
+	if(is_using_days==false)
 	{
 		sprintf(buffer,"%02d%c%02d%c%02d",m_hours,m_delimiter,m_minutes,m_delimiter,m_seconds);
 	}

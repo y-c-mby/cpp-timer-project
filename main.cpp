@@ -1,11 +1,9 @@
 #include "test_t.h"
 #include "test_ti.h"
 #include "my_timer.h"
-/*#include <thread>*/
 #include <unistd.h>
 #include "test_msg.h"
 #include <list>
-/*#include <chrono>*/
 void run_timer_1()
 	{
 		int i;
